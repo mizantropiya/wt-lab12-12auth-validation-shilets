@@ -33,7 +33,7 @@ public partial class AddUsers : Migration
             column: "Login",
             unique: true);
 
-        migrationBuilder.Sql("INSERT INTO "Users" ("Login", "Password") VALUES ('student', '1234');");
+        migrationBuilder.Sql("INSERT INTO \"Users\" (\"Login\", \"Password\") VALUES ('student', '1234');");
     }
 
     protected override void Down(MigrationBuilder migrationBuilder)
