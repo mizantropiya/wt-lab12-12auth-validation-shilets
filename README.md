@@ -34,3 +34,21 @@ dotnet run
 ## Учётная запись
 - Login: `student`
 - Password: `1234`
+
+## Контрольная проверка перед отчётом
+
+В PowerShell в папке проекта (после запуска Docker Desktop):
+
+```powershell
+docker start wt-lab8-postgres
+$env:ASPNETCORE_ENVIRONMENT = "Development"
+Remove-Item Env:DATABASE_URL -ErrorAction SilentlyContinue
+dotnet tool restore
+dotnet build
+dotnet tool run dotnet-ef database update
+dotnet tool run dotnet-ef migrations list
+dotnet run --launch-profile http
+```
+
+Открыть http://localhost:5290/Login. Готовый чек-лист всех 15 скриншотов: `WT12_ПОШАГОВАЯ_ИНСТРУКЦИЯ.txt`.
+Не выполняйте `dotnet ef migrations add AddUsers` повторно: миграция уже есть.
