@@ -52,3 +52,7 @@ dotnet run --launch-profile http
 
 Открыть http://localhost:5290/Login. Готовый чек-лист всех 15 скриншотов: `WT12_ПОШАГОВАЯ_ИНСТРУКЦИЯ.txt`.
 Не выполняйте `dotnet ef migrations add AddUsers` повторно: миграция уже есть.
+
+
+## Совместимость сборки с .NET SDK 9
+На Windows с .NET SDK 9 отключено чтение Git-метаданных механизмом SourceLink (`EnableSourceControlManagerQueries=false` и `SuppressImplicitGitSourceLink=true`). Это не влияет на команды `git log`, `git push` и историю коммитов. В проектном архиве Git-история сохранена.

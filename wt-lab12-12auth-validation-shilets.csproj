@@ -3,6 +3,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Не запрашивать метаданные Git при сборке: избегаем ошибки SourceLink в SDK 9. -->
+    <EnableSourceControlManagerQueries>false</EnableSourceControlManagerQueries>
+    <SuppressImplicitGitSourceLink>true</SuppressImplicitGitSourceLink>
     <RootNamespace>WtLab12Banking.AuthValidation</RootNamespace>
   </PropertyGroup>
 
