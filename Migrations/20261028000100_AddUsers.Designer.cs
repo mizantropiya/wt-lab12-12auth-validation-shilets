@@ -10,8 +10,6 @@ using WtLab12Banking.AuthValidation.Data;
 
 namespace WtLab12Banking.AuthValidation.Migrations;
 
-[DbContext(typeof(AppDbContext))]
-[Migration("20261028000100_AddUsers")]
 public partial class AddUsers
 {
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
