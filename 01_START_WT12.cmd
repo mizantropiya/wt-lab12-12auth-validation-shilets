@@ -14,6 +14,8 @@ where dotnet >nul 2>&1
 if errorlevel 1 goto no_dotnet
 dotnet --list-sdks
 if errorlevel 1 goto no_dotnet
+dotnet --list-runtimes | findstr /C:"Microsoft.AspNetCore.App 8." >nul
+if errorlevel 1 goto no_aspnet8
 
 echo.
 echo [2/5] Checking Docker Desktop...
@@ -65,6 +67,11 @@ goto end
 :no_dotnet
 echo.
 echo ERROR: .NET SDK is missing. Install the .NET 8 SDK from https://dotnet.microsoft.com/download/dotnet/8.0
+exit /b 1
+:no_aspnet8
+echo.
+echo ERROR: The ASP.NET Core 8 runtime is missing. Install the .NET 8 SDK from https://dotnet.microsoft.com/download/dotnet/8.0
+pause
 exit /b 1
 :no_docker
 echo.
