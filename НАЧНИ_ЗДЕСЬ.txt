@@ -1,0 +1,12 @@
+WT-12. СТАРТ С НУЛЯ
+
+1. Распакуйте ВЕСЬ архив; откройте папку wt-lab12-12auth-validation-shilets.
+2. Запустите Docker Desktop и дождитесь Engine running.
+3. Дважды щёлкните 01_START_WT12.cmd.
+4. Дождитесь сообщения о запуске сайта. Откройте http://localhost:5290/Login
+5. Для входа: student / 1234.
+6. Для скрина миграций: 02_CHECK_BUILD_AND_MIGRATIONS.cmd, потом сделайте скрин списка AddUsers.
+
+Для подробностей: README.md и WT12_ПОШАГОВАЯ_ИНСТРУКЦИЯ.txt.
+
+ПРИМЕЧАНИЕ: нужные .NET SDK и Docker Desktop должны быть установлены на Windows.

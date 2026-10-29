@@ -1,48 +1,54 @@
-# WT-12 - Authorization and validation in Razor Pages
+# WT-12 — готовый проект с запуском с нуля
 
-Учебное приложение ASP.NET Core Razor Pages на основе WT-8.
+**Предметная область:** банковские счета из WT-8. **Технологии:** ASP.NET Core Razor Pages / EF Core 8 / PostgreSQL. Приложение, миграции, SQL-данные, Git-история и вспомогательные файлы уже включены. Проект не надо создавать вручную.
 
-## Что реализовано
-- PostgreSQL + Entity Framework Core;
-- модель `User` и миграция `AddUsers`;
-- учебная запись `student / 1234`;
-- вход через `/Login`;
-- Session (`UserLogin`);
-- защищённая страница `/Profile`;
-- выход пользователя;
-- серверная валидация `[Required]`, `[StringLength]` и `ModelState.IsValid`;
-- CRUD банковских счетов из WT-8 сохранён.
+## Что необходимо на Windows
 
-> Пароль хранится открытым текстом только потому, что это прямо предусмотрено учебным заданием WT-12. Для реальных приложений нужен ASP.NET Core Identity и безопасное хеширование.
+- **.NET 8 SDK** (подходит и установленный у вас SDK 9 для сборки проекта; для запуска проекта `net8.0` нужна среда выполнения ASP.NET Core 8).
+- **Docker Desktop**: запустить и дождаться состояния *Engine running*.
+- Интернет при первой загрузке пакетов NuGet и Docker-образа PostgreSQL.
 
-## Локальный запуск
-WT-12 использует ту же локальную PostgreSQL, что и WT-8:
-`Host=localhost;Port=5433;Database=wt_lab8;Username=wt8_user;Password=wt8_pass`.
+Из ранее показанного PowerShell видно, что `dotnet` у вас установлен. Если Docker тоже установлен, повторно устанавливать ничего не требуется.
 
-Если контейнер WT-8 остановлен:
+## Первый запуск — без ручных команд
+
+1. Распаковать архив полностью в удобную папку. Нужна папка `wt-lab12-12auth-validation-shilets` с файлом `.sln`.
+2. Запустить Docker Desktop.
+3. Дважды щёлкнуть **`01_START_WT12.cmd`** в корне проекта.
+4. Скрипт проверит .NET и Docker; запустит PostgreSQL `wt-lab8-postgres`, либо создаст этот контейнер, если его нет; затем выполнит `dotnet build` и запустит приложение.
+5. После старта открыть **http://localhost:5290/Login**. Учебный логин **student**, пароль **1234**.
+6. **Не закрывать консоль**, пока работает приложение. Для остановки нажать `Ctrl+C` в консоли.
+
+На чистой базе автоматически выполняются три миграции: `InitialCreate`, `AddAccountDescription`, `AddUsers`. Появляются демонстрационные банковские счета и пользователь.
+
+Если контейнер WT-8 уже есть, проект использует прежнюю локальную БД, не удаляя данные.
+
+## Проверка для отчёта
+
+При работающем Docker откройте **`02_CHECK_BUILD_AND_MIGRATIONS.cmd`**. Он последовательно выполняет `dotnet tool restore`, `dotnet build`, `dotnet tool run dotnet-ef database update`, `dotnet tool run dotnet-ef migrations list` — **при успехе в последнем списке должна быть `20261028000100_AddUsers` без `(Pending)`**.
+
+SQL-проверка для рисунка 5 (PowerShell):
+
 ```powershell
-docker start wt-lab8-postgres
+docker exec -it wt-lab8-postgres psql -U wt8_user -d wt_lab8
 ```
 
 Затем:
-```powershell
-dotnet tool restore
-dotnet tool run dotnet-ef database update
-dotnet run
+
+```sql
+SELECT "Id", "Login", "Password" FROM "Users" ORDER BY "Id";
 ```
 
-## Учётная запись
-- Login: `student`
-- Password: `1234`
+Выход из `psql`: `\q`.
 
-## Контрольная проверка перед отчётом
+Остальные скриншоты описаны в `WT12_ПОШАГОВАЯ_ИНСТРУКЦИЯ.txt`.
 
-В PowerShell в папке проекта (после запуска Docker Desktop):
+## Ручной запуск (если нужен PowerShell)
 
 ```powershell
-docker start wt-lab8-postgres
 $env:ASPNETCORE_ENVIRONMENT = "Development"
 Remove-Item Env:DATABASE_URL -ErrorAction SilentlyContinue
+docker start wt-lab8-postgres
 dotnet tool restore
 dotnet build
 dotnet tool run dotnet-ef database update
@@ -50,9 +56,20 @@ dotnet tool run dotnet-ef migrations list
 dotnet run --launch-profile http
 ```
 
-Открыть http://localhost:5290/Login. Готовый чек-лист всех 15 скриншотов: `WT12_ПОШАГОВАЯ_ИНСТРУКЦИЯ.txt`.
-Не выполняйте `dotnet ef migrations add AddUsers` повторно: миграция уже есть.
+Если PostgreSQL ещё не существует, сначала запустите `01_START_WT12.cmd`, он создаст контейнер. Тестовая БД использует только локальные учебные реквизиты. **Не размещайте настоящие пароли от облачных БД в GitHub.**
 
+## GitHub
 
-## Совместимость сборки с .NET SDK 9
-На Windows с .NET SDK 9 отключено чтение Git-метаданных механизмом SourceLink (`EnableSourceControlManagerQueries=false` и `SuppressImplicitGitSourceLink=true`). Это не влияет на команды `git log`, `git push` и историю коммитов. В проектном архиве Git-история сохранена.
+В папке проекта сохранён валидный `.git` с веткой `main` и историей коммитов. При создании нового пустого репозитория на GitHub:
+
+```powershell
+git log --oneline
+git remote add origin https://github.com/mizantropiya/wt-lab12-12auth-validation-shilets.git
+git push -u origin main
+```
+
+Не создавайте новый `git init` и не удаляйте `.git`: это уничтожит подготовленную историю. Если `origin` уже существует, используйте `git remote set-url origin <адрес>`.
+
+## Ограничения
+
+Пароль `student / 1234` хранится открыто исключительно для выполнения учебной методички. Для настоящего приложения нужны хеширование/ASP.NET Core Identity. Данная поставка проверена на структуру и целостность, но **фактический запуск в вашей Windows зависит от установленного SDK, Docker и NuGet**, поэтому при непредвиденной ошибке сохраняйте консольный вывод.
