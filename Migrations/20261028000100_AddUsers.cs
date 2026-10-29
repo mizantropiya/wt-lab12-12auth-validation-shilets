@@ -34,6 +34,10 @@ public partial class AddUsers : Migration
             unique: true);
 
         migrationBuilder.Sql("INSERT INTO \"Users\" (\"Login\", \"Password\") VALUES ('student', '1234');");
+
+        // WT-8 uses explicit Id values for seven seeded accounts.
+        // Move the PostgreSQL identity sequence past those values so Create can insert a new account.
+        migrationBuilder.Sql("SELECT setval(pg_get_serial_sequence('\"Accounts\"', 'Id'), COALESCE((SELECT MAX(\"Id\") FROM \"Accounts\"), 1), true);");
     }
 
     protected override void Down(MigrationBuilder migrationBuilder)
