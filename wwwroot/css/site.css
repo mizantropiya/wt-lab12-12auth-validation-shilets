@@ -400,5 +400,59 @@ h1 {
 
 
 .auth-card { max-width: 520px; }
-.auth-hint { font-size: 13px; color: #666; border-top: 1px solid #eee; padding-top: 14px; }
 .validation-summary-errors ul { margin-bottom: 0; }
+
+/* Простое центрирование форм и личного кабинета на всех размерах экрана */
+.centered-page {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.auth-page {
+    max-width: 520px;
+}
+
+.centered-page .page-header {
+    justify-content: center;
+    text-align: center;
+}
+
+.centered-page .form-card-bootstrap,
+.centered-page .details-card,
+.centered-page .auth-card {
+    width: 100%;
+    max-width: none;
+}
+
+.centered-page .details-header {
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Обычная иконка профиля вместо текстового пункта меню */
+.profile-nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 40px;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+}
+
+.profile-nav-link .profile-icon {
+    display: block;
+    flex: none;
+}
+
+.profile-nav-link:hover .profile-icon,
+.profile-nav-link:focus-visible .profile-icon {
+    opacity: .75;
+}
+
+@media (max-width: 767.98px) {
+    .centered-page .page-header {
+        align-items: center;
+    }
+}

@@ -19,7 +19,7 @@ public class ProfileModel : PageModel
     public IActionResult OnPost()
     {
         HttpContext.Session.Clear();
-        TempData["Message"] = "Вы вышли из системы.";
+        TempData["Message"] = "Вы вышли из системы";
         return RedirectToPage("/Login");
     }
 }

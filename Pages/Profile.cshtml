@@ -4,6 +4,7 @@
     ViewData["Title"] = "Личный кабинет";
 }
 
+<section class="centered-page auth-page">
 <div class="page-header">
     <h1>Личный кабинет</h1>
 </div>
@@ -13,12 +14,11 @@
         <p class="mb-2 text-secondary">Пользователь</p>
         <p class="fs-5 mb-4"><strong>@Model.UserLogin</strong></p>
 
-        <p class="text-secondary mb-4">
-            Страница доступна только после успешной авторизации.
-        </p>
 
         <form method="post">
             <button type="submit" class="btn btn-outline-danger">Выйти</button>
         </form>
     </div>
 </div>
+
+</section>

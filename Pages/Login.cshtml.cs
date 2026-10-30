@@ -46,12 +46,12 @@ public class LoginModel : PageModel
 
         if (user is null)
         {
-            ModelState.AddModelError(string.Empty, "Неверный логин или пароль.");
+            ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
             return Page();
         }
 
         HttpContext.Session.SetString("UserLogin", user.Login);
-        TempData["Message"] = "Вход выполнен успешно.";
+        TempData["Message"] = "Вход выполнен успешно";
         return RedirectToPage("/Profile");
     }
 }

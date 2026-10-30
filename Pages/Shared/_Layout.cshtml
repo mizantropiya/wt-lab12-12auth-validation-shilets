@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Http
+@{
+    var isSignedIn = !string.IsNullOrWhiteSpace(Context.Session.GetString("UserLogin"));
+}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -22,9 +26,20 @@
                 <div class="navbar-nav">
                     <a class="nav-link" asp-page="/Index">Главная</a>
                     <a class="nav-link" asp-page="/Accounts/Index">Счета</a>
-                    <a class="nav-link" asp-page="/Accounts/Create">Добавить</a>
-                    <a class="nav-link" asp-page="/Login">Войти</a>
-                    <a class="nav-link" asp-page="/Profile">Личный кабинет</a>
+                    @if (isSignedIn)
+                    {
+                        <a class="nav-link profile-nav-link" asp-page="/Profile" aria-label="Личный кабинет" title="Личный кабинет">
+                            <svg class="profile-icon" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
+                                <circle cx="14" cy="14" r="13" fill="#f5f5f5" stroke="#666" />
+                                <circle cx="14" cy="10.5" r="4" fill="#777" />
+                                <path d="M6.5 22.3c.5-4 3.4-6 7.5-6s7 2 7.5 6" fill="#777" />
+                            </svg>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="nav-link" asp-page="/Login">Войти</a>
+                    }
                 </div>
             </nav>
         </div>
